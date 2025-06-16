@@ -12,7 +12,7 @@ const bookingController = {
     try {
       const booking = await Booking.create({
         car: carId,
-        user: req.user.uid,  // Make sure auth middleware sets this
+        user: req.user.uid,
         startDate,
         endDate,
         totalPrice,
@@ -30,7 +30,7 @@ const bookingController = {
   getMyBookings: async (req, res) => {
     try {
       const bookings = await Booking.find({ user: req.user.uid })
-        .populate('car')   // <-- populate car details here!
+        .populate('car')
         .sort({ startDate: -1 });
 
       res.json(bookings);
@@ -43,7 +43,7 @@ const bookingController = {
   cancelBooking: async (req, res) => {
     try {
       const booking = await Booking.findOneAndUpdate(
-        { car_id: req.params.id, user: req.user.uid },
+        { _id: req.params.id, user: req.user.uid }, // <-- FIXED
         { status: 'canceled' },
         { new: true }
       );
@@ -60,7 +60,7 @@ const bookingController = {
     try {
       const { startDate, endDate } = req.body;
       const booking = await Booking.findOneAndUpdate(
-        { car_id: req.params.id, user: req.user.uid },
+        { _id: req.params.id, user: req.user.uid }, // <-- FIXED
         { startDate, endDate },
         { new: true }
       );
@@ -76,7 +76,7 @@ const bookingController = {
   deleteBooking: async (req, res) => {
     try {
       const booking = await Booking.findOneAndDelete({
-        car_id: req.params.id,
+        _id: req.params.id, // <-- FIXED
         user: req.user.uid,
       });
 
