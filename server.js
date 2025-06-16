@@ -21,11 +21,11 @@ app.use(cookieParser());
 // Enable Helmet for security headers
 app.use(helmet());
 
-// CORS configuration - update origin to your frontend URL
+// CORS configuration - allow any frontend URL
 app.use(
   cors({
-    origin: "http://localhost:5173", // <-- Replace with your frontend URL
-    credentials: true,               // Allow cookies to be sent
+    origin: true, // Allow all origins
+    credentials: true,
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
@@ -50,4 +50,4 @@ app.use((req, res) => {
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-});
+}); 
